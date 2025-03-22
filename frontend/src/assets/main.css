@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Any custom CSS can go below */
+html, body {
+  @apply h-full w-full;
+}
+
+#app {
+  @apply h-full w-full font-sans text-gray-800;
+}

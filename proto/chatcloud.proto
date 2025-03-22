@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package chatcloud;
+
+option go_package = "github.com/chatcloud/backend/proto;proto";
+
+// ChatCloud service definition
+service ChatCloud {
+  // JoinRoom allows a user to join a chat room
+  rpc JoinRoom(JoinRoomRequest) returns (JoinRoomResponse);
+  
+  // SendMessage allows a user to send a message to a room
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  
+  // StreamMessages allows a user to receive messages from a room in real-time
+  rpc StreamMessages(StreamMessagesRequest) returns (stream Message);
+  
+  // LeaveRoom allows a user to leave a chat room
+  rpc LeaveRoom(LeaveRoomRequest) returns (LeaveRoomResponse);
+}
+
+// JoinRoomRequest is sent when a user wants to join a room
+message JoinRoomRequest {
+  string user_id = 1;
+  string room_id = 2;
+}
+
+// JoinRoomResponse is returned after a user joins a room
+message JoinRoomResponse {
+  bool success = 1;
+  string error = 2;
+  repeated Message recent_messages = 3;
+}
+
+// SendMessageRequest is sent when a user wants to send a message
+message SendMessageRequest {
+  string user_id = 1;
+  string room_id = 2;
+  string content = 3;
+}
+
+// SendMessageResponse is returned after a message is sent
+message SendMessageResponse {
+  bool success = 1;
+  string error = 2;
+  Message message = 3;
+}
+
+// StreamMessagesRequest is sent to start streaming messages from a room
+message StreamMessagesRequest {
+  string user_id = 1;
+  string room_id = 2;
+}
+
+// Message represents a chat message
+message Message {
+  string id = 1;
+  string user_id = 2;
+  string room_id = 3;
+  string content = 4;
+  int64 timestamp = 5;
+}
+
+// LeaveRoomRequest is sent when a user wants to leave a room
+message LeaveRoomRequest {
+  string user_id = 1;
+  string room_id = 2;
+}
+
+// LeaveRoomResponse is returned after a user leaves a room
+message LeaveRoomResponse {
+  bool success = 1;
+  string error = 2;
+}
